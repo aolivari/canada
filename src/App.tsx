@@ -1,121 +1,104 @@
-import { useState, useRef, useCallback, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 import DaySlide from "./components/DaySlide";
 import ChecklistPage from "./components/ChecklistPage";
-import { days, checklist, tripTitle, tripSubtitle, tripDates } from "./data/tripData";
+import { days, checklist, tripTitle, tripDates } from "./data/tripData";
 
 type Tab = "itinerario" | "checklist";
+
+// Short labels for mobile tabs
+const dayLabels = days.map((d) => {
+  const num = d.date.split(" ")[0]; // "21", "22–26", etc.
+  // Short location names for active pill
+  const loc = d.title.split("—")[0].split("+")[0].trim().split(" ").slice(0, 2).join(" ");
+  return { num, loc };
+});
 
 export default function App() {
   const [tab, setTab] = useState<Tab>("itinerario");
   const [currentDay, setCurrentDay] = useState(0);
-  const [isChecklist, setIsChecklist] = useState(false);
-  const touchStartX = useRef(0);
-  const touchEndX = useRef(0);
-  const containerRef = useRef<HTMLDivElement>(null);
+  const pillsRef = useRef<HTMLDivElement>(null);
 
-  // Swipe horizontal
-  const handleTouchStart = (e: React.TouchEvent) => {
-    touchStartX.current = e.touches[0].clientX;
-  };
-  const handleTouchMove = (e: React.TouchEvent) => {
-    touchEndX.current = e.touches[0].clientX;
-  };
-  const handleTouchEnd = () => {
-    const diff = touchStartX.current - touchEndX.current;
-    if (Math.abs(diff) > 60) {
-      if (diff > 0 && currentDay < days.length - 1) {
-        setCurrentDay((p) => p + 1);
-      } else if (diff < 0 && currentDay > 0) {
-        setCurrentDay((p) => p - 1);
-      }
-    }
-  };
-
-  // Rueda del ratón
-  const handleWheel = useCallback(
-    (e: WheelEvent) => {
-      if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) {
-        e.preventDefault();
-        if (e.deltaX > 0 && currentDay < days.length - 1) {
-          setCurrentDay((p) => p + 1);
-        } else if (e.deltaX < 0 && currentDay > 0) {
-          setCurrentDay((p) => p - 1);
-        }
-      }
-    },
-    [currentDay]
-  );
-
+  // Auto-scroll active pill into view
   useEffect(() => {
-    const el = containerRef.current;
+    const el = pillsRef.current;
     if (el) {
-      el.addEventListener("wheel", handleWheel, { passive: false });
-      return () => el.removeEventListener("wheel", handleWheel);
+      const child = el.children[currentDay] as HTMLElement;
+      if (child) {
+        child.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+      }
     }
-  }, [handleWheel]);
-
-  // Teclado
-  useEffect(() => {
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "ArrowRight" && currentDay < days.length - 1) setCurrentDay((p) => p + 1);
-      if (e.key === "ArrowLeft" && currentDay > 0) setCurrentDay((p) => p - 1);
-    };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
   }, [currentDay]);
-
-  // Dots indicadores
-  const goToDay = (i: number) => setCurrentDay(i);
 
   return (
     <div className="h-screen w-screen overflow-hidden bg-background flex flex-col">
-      {/* ── TOP BAR ── */}
-      <header className="flex-shrink-0 bg-background/95 backdrop-blur-md border-b border-outline-variant/10 z-20">
-        <div className="px-4 py-2.5">
-          <div className="flex items-center gap-2 mb-2">
-            <div className="w-8 h-8 bg-primary-container rounded-full flex items-center justify-center flex-shrink-0">
-              <span className="material-symbols-outlined text-on-primary-container text-lg" style={{ fontVariationSettings: "'FILL' 1" }}>sunny</span>
+      {/* ── HEADER ── */}
+      <header className="flex-shrink-0 bg-background/95 backdrop-blur-md z-20">
+        {/* Top row */}
+        <div className="flex items-center justify-between px-3 py-1.5">
+          <div className="flex items-center gap-2 min-w-0">
+            <div className="w-7 h-7 bg-primary rounded-lg flex items-center justify-center flex-shrink-0">
+              <i className="fa-solid fa-leaf text-on-primary text-[11px]" />
             </div>
-            <div className="flex-1 min-w-0">
-              <h1 className="font-display font-bold text-on-surface text-sm leading-tight">{tripTitle}</h1>
-              <p className="text-[9px] text-on-surface-variant/60 uppercase tracking-widest font-bold">{tripDates}</p>
+            <div className="min-w-0">
+              <h1 className="font-display font-extrabold text-on-surface text-[13px] leading-none">{tripTitle}</h1>
+              <p className="text-[8px] text-on-surface-variant/50 uppercase tracking-widest font-bold mt-0.5">{tripDates}</p>
             </div>
-            <button
-              onClick={() => setTab(tab === "itinerario" ? "checklist" : "itinerario")}
-              className="text-[10px] font-bold text-primary bg-primary-container/30 px-3 py-1.5 rounded-full whitespace-nowrap hover:bg-primary-container/50 transition-colors"
-            >
-              {tab === "itinerario" ? "📋 Checklist" : "🗓️ Itinerario"}
-            </button>
           </div>
+          <button
+            onClick={() => setTab(tab === "itinerario" ? "checklist" : "itinerario")}
+            className="flex items-center gap-1 text-[10px] font-bold text-primary bg-primary-fixed/25 px-2.5 py-1.5 rounded-lg whitespace-nowrap hover:bg-primary-fixed/40 active:scale-95 transition-all"
+          >
+            <i className={`fa-solid ${tab === "itinerario" ? "fa-clipboard-list" : "fa-calendar-days"} text-[9px]`} />
+            {tab === "itinerario" ? "Checklist" : "Itinerario"}
+          </button>
+        </div>
 
-          {tab === "itinerario" && (
-            <div className="flex justify-center gap-1.5">
-              {days.map((d, i) => (
+        {/* ── DAY PILLS ── */}
+        {tab === "itinerario" && (
+          <div
+            ref={pillsRef}
+            className="flex gap-1 overflow-x-auto no-scrollbar px-3 pb-2 pt-0.5"
+          >
+            {days.map((d, i) => {
+              const isActive = i === currentDay;
+              const label = dayLabels[i];
+              return (
                 <button
                   key={i}
-                  onClick={() => goToDay(i)}
-                  className={`h-1.5 rounded-full transition-all ${
-                    i === currentDay ? "bg-primary w-6" : "bg-outline-variant/40 w-1.5"
+                  onClick={() => setCurrentDay(i)}
+                  className={`flex-shrink-0 flex items-center gap-1.5 rounded-full transition-all duration-300 ${
+                    isActive
+                      ? "bg-primary text-on-primary pl-1 pr-3 py-1 shadow-sm"
+                      : "bg-surface-container text-on-surface-variant/60 hover:bg-surface-container-high hover:text-on-surface-variant px-1 py-1"
                   }`}
-                />
-              ))}
-            </div>
-          )}
-        </div>
+                >
+                  {/* Day number circle */}
+                  <div className={`flex items-center justify-center rounded-full font-bold transition-all duration-300 ${
+                    isActive
+                      ? "w-6 h-6 bg-on-primary/20 text-[10px]"
+                      : "w-6 h-6 text-[10px]"
+                  }`}>
+                    {label.num}
+                  </div>
+                  {/* Expanded label — only on active */}
+                  {isActive && (
+                    <span className="text-[10px] font-bold whitespace-nowrap animate-fade-in">
+                      {label.loc}
+                    </span>
+                  )}
+                </button>
+              );
+            })}
+          </div>
+        )}
       </header>
 
       {/* ── CONTENT ── */}
-      <main ref={containerRef} className="flex-1 overflow-hidden">
+      <main className="flex-1 overflow-hidden">
         {tab === "itinerario" ? (
-          <div
-            className="h-full flex transition-transform duration-300 ease-out"
-            style={{ transform: `translateX(-${currentDay * 100}%)` }}
-            onTouchStart={handleTouchStart}
-            onTouchMove={handleTouchMove}
-            onTouchEnd={handleTouchEnd}
-          >
+          <div className="h-full">
             {days.map((day, i) => (
-              <div key={i} className="h-full w-full flex-shrink-0">
+              <div key={i} className={`h-full ${i === currentDay ? "block animate-fade-in" : "hidden"}`}>
                 <DaySlide day={day} isActive={i === currentDay} />
               </div>
             ))}
@@ -126,29 +109,6 @@ export default function App() {
           </div>
         )}
       </main>
-
-      {/* ── DAY NAV ── */}
-      {tab === "itinerario" && (
-        <div className="flex-shrink-0 flex justify-between items-center px-4 py-2 bg-background/95 backdrop-blur-md border-t border-outline-variant/10">
-          <button
-            onClick={() => currentDay > 0 && setCurrentDay((p) => p - 1)}
-            disabled={currentDay === 0}
-            className="text-xs font-bold text-on-surface-variant/60 disabled:opacity-20"
-          >
-            ← Anterior
-          </button>
-          <span className="text-[10px] text-on-surface-variant/40 font-mono">
-            {currentDay + 1} / {days.length}
-          </span>
-          <button
-            onClick={() => currentDay < days.length - 1 && setCurrentDay((p) => p + 1)}
-            disabled={currentDay === days.length - 1}
-            className="text-xs font-bold text-on-surface-variant/60 disabled:opacity-20"
-          >
-            Siguiente →
-          </button>
-        </div>
-      )}
     </div>
   );
 }

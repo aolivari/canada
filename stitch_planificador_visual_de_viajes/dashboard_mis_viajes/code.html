@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Travel Joy - Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Epilogue:wght@400;600;700;800&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .active-nav-icon {
+            font-variation-settings: 'FILL' 1;
+        }
+        /* Custom scrollbar for a cleaner look */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #c2c9b8;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #73796b;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary-fixed-variant": "#822800",
+                        "tertiary": "#a43c12",
+                        "on-primary-container": "#27520b",
+                        "surface-dim": "#dbdad6",
+                        "surface-tint": "#3d6922",
+                        "on-error": "#ffffff",
+                        "inverse-primary": "#a2d580",
+                        "background": "#fbf9f5",
+                        "on-error-container": "#93000a",
+                        "on-background": "#1b1c1a",
+                        "error-container": "#ffdad6",
+                        "surface-container-lowest": "#ffffff",
+                        "inverse-on-surface": "#f2f0ed",
+                        "surface-container-high": "#eae8e4",
+                        "on-primary-fixed": "#092100",
+                        "tertiary-fixed-dim": "#ffb59c",
+                        "outline-variant": "#c2c9b8",
+                        "on-secondary-container": "#795950",
+                        "tertiary-container": "#ff9e7c",
+                        "inverse-surface": "#30312e",
+                        "error": "#ba1a1a",
+                        "outline": "#73796b",
+                        "on-secondary": "#ffffff",
+                        "on-tertiary-container": "#842800",
+                        "surface-bright": "#fbf9f5",
+                        "surface-container-highest": "#e4e2de",
+                        "on-primary": "#ffffff",
+                        "secondary-container": "#fed3c7",
+                        "surface-container": "#efeeea",
+                        "primary-fixed": "#bdf199",
+                        "secondary-fixed-dim": "#e7bdb1",
+                        "surface-container-low": "#f5f3ef",
+                        "on-surface-variant": "#42493c",
+                        "primary-fixed-dim": "#a2d580",
+                        "tertiary-fixed": "#ffdbcf",
+                        "on-secondary-fixed-variant": "#5d4037",
+                        "secondary-fixed": "#ffdbd0",
+                        "surface-variant": "#e4e2de",
+                        "secondary": "#77574d",
+                        "primary-container": "#93c572",
+                        "on-primary-fixed-variant": "#26500a",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary-fixed": "#2c160e",
+                        "on-tertiary-fixed": "#380c00",
+                        "on-surface": "#1b1c1a",
+                        "primary": "#3d6922",
+                        "surface": "#fbf9f5"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "1rem",
+                        "lg": "2rem",
+                        "xl": "3rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-mobile": "16px",
+                        "container-max": "1280px",
+                        "gutter": "24px",
+                        "margin-desktop": "40px",
+                        "unit": "8px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Plus Jakarta Sans"],
+                        "label-md": ["Plus Jakarta Sans"],
+                        "headline-sm": ["Epilogue"],
+                        "label-sm": ["Plus Jakarta Sans"],
+                        "display-lg": ["Epilogue"],
+                        "display-lg-mobile": ["Epilogue"],
+                        "body-lg": ["Plus Jakarta Sans"],
+                        "headline-md": ["Epilogue"]
+                    },
+                    "fontSize": {
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                        "headline-sm": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                        "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "display-lg-mobile": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "headline-md": ["32px", {"lineHeight": "40px", "fontWeight": "600"}]
+                    }
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background text-on-surface font-body-md overflow-x-hidden">
+<div class="flex min-h-screen relative">
+<!-- SideNavBar (Authority Source: JSON) -->
+<aside class="hidden md:flex flex-col h-screen sticky left-0 top-0 w-64 py-margin-desktop px-4 bg-surface-container-low dark:bg-surface-dim shadow-[0px_4px_20px_rgba(93,64,55,0.08)] rounded-r-lg z-50">
+<div class="mb-10 px-4">
+<h1 class="font-headline-md text-headline-md text-primary font-bold">Travel Joy</h1>
+<p class="text-on-surface-variant font-label-md mt-1">Your next adventure awaits</p>
+</div>
+<nav class="flex-1 space-y-2">
+<!-- Dashboard (Active) -->
+<a class="flex items-center gap-3 px-4 py-3 rounded-full transition-transform duration-200 hover:scale-[1.02] hover:bg-surface-container-highest text-primary dark:text-primary-fixed-dim border-r-4 border-primary font-bold" href="#">
+<span class="material-symbols-outlined active-nav-icon" data-icon="dashboard">dashboard</span>
+<span class="font-label-md">Dashboard</span>
+</a>
+<!-- My Trips -->
+<a class="flex items-center gap-3 px-4 py-3 rounded-full transition-transform duration-200 hover:scale-[1.02] hover:bg-surface-container-highest text-on-surface-variant dark:text-surface-variant" href="#">
+<span class="material-symbols-outlined" data-icon="map">map</span>
+<span class="font-label-md">My Trips</span>
+</a>
+<!-- Explore -->
+<a class="flex items-center gap-3 px-4 py-3 rounded-full transition-transform duration-200 hover:scale-[1.02] hover:bg-surface-container-highest text-on-surface-variant dark:text-surface-variant" href="#">
+<span class="material-symbols-outlined" data-icon="explore">explore</span>
+<span class="font-label-md">Explore</span>
+</a>
+<!-- Budget -->
+<a class="flex items-center gap-3 px-4 py-3 rounded-full transition-transform duration-200 hover:scale-[1.02] hover:bg-surface-container-highest text-on-surface-variant dark:text-surface-variant" href="#">
+<span class="material-symbols-outlined" data-icon="payments">payments</span>
+<span class="font-label-md">Budget</span>
+</a>
+<!-- Packing List -->
+<a class="flex items-center gap-3 px-4 py-3 rounded-full transition-transform duration-200 hover:scale-[1.02] hover:bg-surface-container-highest text-on-surface-variant dark:text-surface-variant" href="#">
+<span class="material-symbols-outlined" data-icon="checklist">checklist</span>
+<span class="font-label-md">Packing List</span>
+</a>
+</nav>
+<div class="mt-auto px-4 pt-10">
+<button class="w-full py-4 px-6 bg-primary-container text-on-primary-container rounded-full font-label-md font-bold hover:scale-[1.02] active:scale-95 transition-all flex items-center justify-center gap-2 shadow-sm">
+<span class="material-symbols-outlined" data-icon="add">add</span>
+                    New Trip
+                </button>
+<div class="mt-8 flex items-center gap-3 p-3 bg-surface-container-highest/30 rounded-full">
+<img class="w-10 h-10 rounded-full object-cover" data-alt="A portrait of a cheerful, stylish young traveler with short hair and a sun-kissed complexion, wearing a simple linen shirt and standing in a sunlit boutique hotel lobby. The lighting is warm and natural, evoking a sense of calm and excitement for discovery. The background is softly blurred to emphasize the profile avatar style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBko1LbOPULYedr9U88z3EJt5Yxp6ZJPYbz-dNFNKKyFChMwJU9EYrF8gKHNmQeZjs5PKpLLTnBXqbjNl7WbaAH1nH9NoT_mKI5XTQa19DruoOK7zGHOmqkf3AsALZfitOsnVOnBymyHsNdNJgwbSmu5Ql-OMJO3KtSpZcJdVTT6KAUVbB4vE7xsm-xD_VPUhEiglPChShYZWiRvSeqnHKnHTIUsNOEyb9WRd_1kA-z_UNury-GsRmXkg"/>
+<div class="overflow-hidden">
+<p class="font-label-md text-on-surface truncate">Alex Rivera</p>
+<p class="text-xs text-on-surface-variant truncate">Adventurer Tier</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-10">
+<!-- Mobile Header (Hidden on Desktop) -->
+<header class="md:hidden flex justify-between items-center mb-8">
+<h1 class="font-headline-md text-primary font-bold">Travel Joy</h1>
+<button class="p-2 bg-surface-container rounded-full">
+<span class="material-symbols-outlined" data-icon="menu">menu</span>
+</button>
+</header>
+<!-- Welcoming Header Section -->
+<section class="mb-12">
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
+<div class="max-w-2xl">
+<h2 class="font-display-lg-mobile md:font-display-lg text-display-lg-mobile md:text-display-lg text-on-surface mb-4">
+                            ¡Hola, Aventurero! <br/>
+<span class="text-primary italic">¿A dónde vamos hoy?</span>
+</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant">Your itineraries are ready for your next big discovery. Pack your bags and let the joy begin.</p>
+</div>
+<!-- Search / Action Bar -->
+<div class="flex items-center gap-3">
+<div class="relative flex-1 md:w-64">
+<input class="w-full bg-surface-container-low border-2 border-transparent focus:border-primary-container focus:ring-0 rounded-full py-3 px-12 font-label-md transition-all" placeholder="Search trips..." type="text"/>
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant" data-icon="search">search</span>
+</div>
+<button class="md:hidden p-4 bg-primary-container text-on-primary-container rounded-full shadow-lg">
+<span class="material-symbols-outlined" data-icon="add">add</span>
+</button>
+</div>
+</div>
+</section>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter">
+<!-- "My Trips" Grid Section -->
+<section class="lg:col-span-8 space-y-8">
+<div class="flex items-center justify-between">
+<h3 class="font-headline-sm text-headline-sm text-on-surface-variant">Mis Próximos Viajes</h3>
+<a class="text-primary font-label-md flex items-center gap-1 hover:underline" href="#">
+                            Ver todos <span class="material-symbols-outlined text-sm" data-icon="arrow_forward">arrow_forward</span>
+</a>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+<!-- Trip Card 1: Amalfi Coast -->
+<div class="group bg-surface-container-lowest rounded-lg overflow-hidden shadow-[0px_4px_20px_rgba(93,64,55,0.06)] hover:shadow-[0px_8px_30px_rgba(93,64,55,0.12)] transition-all duration-300 hover:scale-[1.02] cursor-pointer">
+<div class="relative h-56 overflow-hidden">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110" data-alt="A breathtaking sunset view of the Amalfi Coast in Italy. The image shows the iconic colorful cliffside houses of Positano overlooking the sparkling turquoise Tyrrhenian Sea. The lighting is golden and warm, casting long, soft shadows. The overall aesthetic is vibrant and romantic, with a focus on travel luxury and serene natural beauty." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCmY6TWM1RZSslXRjhH10ooGD3SjjYveoq0ZTWFKdQR4rUKjfaa4lPI4cffAFZ3YiYSi_qWX7lgNNu0Eby4Fhhvtk_qq26a3KSHtcpjpGWcdfYK_bqc1ZOPUJ7Wjms8foxdSBA5lu5Il3mEljBL_fMorAtYW_WEJk4S6NqYEfqmv70rdEHghkP9MRZU3RS9_dFpkOinDXX4KlxSVzhV1Fzt_sey7C7ooMlq8BEeMQmQPsHwlZARt0YjcQ')"></div>
+<div class="absolute top-4 left-4">
+<span class="px-3 py-1 bg-secondary-container/90 backdrop-blur-sm text-on-secondary-container text-[10px] font-bold uppercase tracking-widest rounded-full">Romantic</span>
+</div>
+<div class="absolute bottom-4 right-4 bg-surface-container-lowest/80 backdrop-blur-md p-2 rounded-full flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-sm" data-icon="wb_sunny">wb_sunny</span>
+<span class="text-[10px] font-bold text-on-surface">24°C</span>
+</div>
+</div>
+<div class="p-6">
+<div class="flex justify-between items-start mb-2">
+<h4 class="font-headline-sm text-primary">Amalfi Dream</h4>
+<span class="material-symbols-outlined text-on-surface-variant/40" data-icon="more_vert">more_vert</span>
+</div>
+<p class="text-on-surface-variant font-label-md flex items-center gap-2 mb-4">
+<span class="material-symbols-outlined text-sm" data-icon="calendar_today">calendar_today</span>
+                                    June 12 - June 20, 2024
+                                </p>
+<div class="flex -space-x-2">
+<img class="w-8 h-8 rounded-full border-2 border-surface-container-lowest" data-alt="Close up face of a smiling person with sunglasses" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCn0bBWyV5P73zAMiGRSXOa1-twtezMmi5AADD1kzX7bYTqTtu_9eX41zVUveoeXfm3A1sObSk3BYHHs8B0RQ54-5sm9aqsgEbr0M-m_6lPZJGunTcqas1uMpiEZSOUBBEPe2SYO38ZG3HzWxPKFZHoApSDHtJE3Kj21HaAuYcVVXPOZy9V-sESCEz47en0DsHxMMjs0GDuO7_ISQPeSA6A_3LrzaT8KcO-1uZKFX8dEsnDVh_SHXfF_Q"/>
+<img class="w-8 h-8 rounded-full border-2 border-surface-container-lowest" data-alt="Close up face of another person" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA2tRacxPgaiLXa8QajSniz7LR47e5D4bWdZ1Bs3egYy1X1L504-6papc0SiQ8EFTmUaNchF6_j2bA7eNP2L9o7Nk-sUcTOVwZrOKq1f4jZ8nr4plq4udJqpDjlJ5Rjdyq2lBYs6gCN0LpRS5SGHjEei4nGWQod9PS1cZ9dZR-c684zZFaBmwtkBNvOsaSfTVApPK3GAXALw-MhJbWzV9clvPmMh6nQkNQ0HmldeV5JdyCp3VYFiYKwMg"/>
+<div class="w-8 h-8 rounded-full border-2 border-surface-container-lowest bg-primary-fixed flex items-center justify-center text-[10px] font-bold text-primary">Planning</div>
+</div>
+</div>
+</div>
+<!-- Trip Card 2: Kyoto -->
+<div class="group bg-surface-container-lowest rounded-lg overflow-hidden shadow-[0px_4px_20px_rgba(93,64,55,0.06)] hover:shadow-[0px_8px_30px_rgba(93,64,55,0.12)] transition-all duration-300 hover:scale-[1.02] cursor-pointer">
+<div class="relative h-56 overflow-hidden">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110" data-alt="A peaceful and symmetrical view of a traditional Japanese pagoda in Kyoto surrounded by cherry blossom trees in full bloom. The soft pink petals contrast with the dark wood of the temple and the crisp blue sky. The lighting is high-key and bright, reflecting a fresh spring morning. The mood is meditative and culturally rich, embodying the spirit of exploration." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCFzqf4lHHPpSZ_3wiBV5gzCyCCsHLkHvIga0-tdaU91J3wZBdIN-RDhiK2eIhHQaKYRkL9trxXCjiOS45IXtZA5QEIJ3TikR_w5fNcRn3SFQRbeLwn7hjpgU1y6Agi4SJOnn1Dqnd6o_6K2tS3PTsnUDk8dPzoaFqziJ0Slhqz7Jz47JrB00p1_oqsO8bzHJwW5lO-tmt2Hy5j7CsIAFQ1DAkAnXmJYfhCczgNQY5ojWrYkbjy32b6EQ')"></div>
+<div class="absolute top-4 left-4">
+<span class="px-3 py-1 bg-primary-container/90 backdrop-blur-sm text-on-primary-container text-[10px] font-bold uppercase tracking-widest rounded-full">Solo</span>
+</div>
+</div>
+<div class="p-6">
+<div class="flex justify-between items-start mb-2">
+<h4 class="font-headline-sm text-primary">Kyoto Zen</h4>
+<span class="material-symbols-outlined text-on-surface-variant/40" data-icon="more_vert">more_vert</span>
+</div>
+<p class="text-on-surface-variant font-label-md flex items-center gap-2 mb-4">
+<span class="material-symbols-outlined text-sm" data-icon="calendar_today">calendar_today</span>
+                                    Oct 05 - Oct 18, 2024
+                                </p>
+<div class="w-full bg-surface-container rounded-full h-1.5 mb-2 overflow-hidden">
+<div class="bg-primary h-full w-[45%]" id="progress-kyoto"></div>
+</div>
+<p class="text-[10px] font-bold text-on-surface-variant uppercase tracking-tighter">45% Booked</p>
+</div>
+</div>
+<!-- Trip Card 3: Swiss Alps -->
+<div class="group bg-surface-container-lowest rounded-lg overflow-hidden shadow-[0px_4px_20px_rgba(93,64,55,0.06)] hover:shadow-[0px_8px_30px_rgba(93,64,55,0.12)] transition-all duration-300 hover:scale-[1.02] cursor-pointer">
+<div class="relative h-56 overflow-hidden">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110" data-alt="A panoramic view of the snow-capped Swiss Alps under a clear, deep blue sky. A cozy wooden alpine chalet with smoke rising from the chimney sits in a field of pristine white snow. The image captures the crisp, cold air and the warm, inviting atmosphere of a winter mountain retreat. The style is grand, majestic, and serene, focusing on nature and cozy luxury." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDiE1YQV3q1KfY5_V1wGgpyuFSGPRd6j8FK0YzQfXoMpKhBs7bm5brWIHGbLJCDOOyu80jhYZmKxjyQla_MSjSSbufiNQFHGTCdmDw6-xmG4zY8Ho0c14CE0kzcD6oLQBl41OLdLdlOQKD5GAn4beZtQccbP0-rkqROpojf0e0_heZQmaLmfTa96v3RasdpR2904sv1M4KRv3bHRTaNcvS-OsWjvnFYBz2qw-csXK_miZWpoEaczcu9zA')"></div>
+<div class="absolute top-4 left-4">
+<span class="px-3 py-1 bg-tertiary-container/90 backdrop-blur-sm text-on-tertiary-container text-[10px] font-bold uppercase tracking-widest rounded-full">Family</span>
+</div>
+</div>
+<div class="p-6">
+<div class="flex justify-between items-start mb-2">
+<h4 class="font-headline-sm text-primary">Alpine Retreat</h4>
+<span class="material-symbols-outlined text-on-surface-variant/40" data-icon="more_vert">more_vert</span>
+</div>
+<p class="text-on-surface-variant font-label-md flex items-center gap-2 mb-4">
+<span class="material-symbols-outlined text-sm" data-icon="calendar_today">calendar_today</span>
+                                    Dec 22 - Jan 02, 2025
+                                </p>
+<div class="flex items-center gap-2">
+<div class="flex -space-x-2">
+<img class="w-6 h-6 rounded-full border-2 border-surface-container-lowest" data-alt="Child profile photo" src="https://lh3.googleusercontent.com/aida-public/AB6AXuARzdyqsvIT4NvOp-kwfCvrvfO91bZb1HVnepe430s1bugINSFHhxrSAut-DnhSUCWjZYvg6Iukd6t7sY5hJjbIEsl9E6Qnu291o_7_YYpDJAvXRrezSehAC-261OpYnJ1uwJEYGSMmqx39CmIokdK67_mgKgMPzuvsq_YKRxu1TB21nEkTpMtPoIFJMbMfO3Zw0YqfzdBuJsihxaxHRDz4CiXz0d0C6iuNaPK14YDW66CcfcbUrEdvQg"/>
+<img class="w-6 h-6 rounded-full border-2 border-surface-container-lowest" data-alt="Adult profile photo" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDFRZ4lPGc0_YoAEskKwM3Wdizw7nedTWuUv7osOO9vVxFZjq4Z1ULeIuwPhIw-71mKehFBwmTxgL7-eG2d5wkhFX7bIwKmZyhYETaugySNmpCRJ1rI9jtsUtd33CPMR4rrMxZj0nYSIlfdBB2QYhfA5ZetYr1hTwM162PN-E1wq1-94BNY2ClgVAiCBA2rwaCDxqgks61yf3BKHCiWpqKy0f383ZhY7UWpWkgFKKIKBgQhjQh4V4vSnA"/>
+<img class="w-6 h-6 rounded-full border-2 border-surface-container-lowest" data-alt="Adult profile photo" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCLT3OSiHwwr8_-dHKdcvtrmjee9A3iVXWghOLzAVcnYP2DGHp27WFVX5mHpysiaDi9OWJzgkHKInPbs9AvbAMlFGD8DV1V9QTpJrzxd77piTHD-pqtjxPulIePtQngYSe7IYVuYBephONlRv3g63oT1_gZw0UK1k1otUtvVHAH5GkVT3SCiA9BOG3Ib2DNnRaPENnCucRSwfFTvmDOguEqj5xNKfEtlILM0M4W5En5zebh_yY7Dbxg1Q"/>
+</div>
+<span class="text-xs text-on-surface-variant">+2 more</span>
+</div>
+</div>
+</div>
+<!-- Add New Trip Card -->
+<div class="border-4 border-dashed border-outline-variant/30 rounded-lg flex flex-col items-center justify-center p-10 hover:border-primary/40 hover:bg-primary/5 transition-all group cursor-pointer">
+<div class="w-16 h-16 rounded-full bg-surface-container-high flex items-center justify-center text-primary mb-4 group-hover:scale-110 group-hover:bg-primary-container transition-transform">
+<span class="material-symbols-outlined text-3xl" data-icon="add">add</span>
+</div>
+<p class="font-headline-sm text-on-surface-variant group-hover:text-primary transition-colors">Start Planning</p>
+<p class="text-on-surface-variant font-label-md text-center mt-2 opacity-60">Create a new itinerary and invite your friends</p>
+</div>
+</div>
+</section>
+<!-- Sidebar Widgets -->
+<aside class="lg:col-span-4 space-y-gutter">
+<!-- Next Adventure Countdown Widget -->
+<div class="bg-on-secondary-fixed-variant text-white p-8 rounded-lg relative overflow-hidden shadow-lg">
+<!-- Abstract Organic Shape Background -->
+<div class="absolute -right-10 -top-10 w-40 h-40 bg-tertiary opacity-20 rounded-full blur-3xl"></div>
+<div class="absolute -left-10 -bottom-10 w-32 h-32 bg-primary-container opacity-10 rounded-full blur-2xl"></div>
+<h4 class="font-label-sm text-tertiary-fixed-dim uppercase tracking-[0.2em] mb-4">Próxima Parada</h4>
+<p class="font-headline-md mb-2">Amalfi Coast, IT</p>
+<p class="font-body-md opacity-80 mb-8">Ready to explore the Mediterranean soul.</p>
+<div class="flex items-center gap-4 mb-8">
+<div class="flex-1 bg-white/10 backdrop-blur-md rounded-2xl p-4 text-center">
+<p class="text-2xl font-bold font-headline-sm" id="days-count">12</p>
+<p class="text-[10px] uppercase font-bold tracking-widest opacity-60">Días</p>
+</div>
+<div class="flex-1 bg-white/10 backdrop-blur-md rounded-2xl p-4 text-center">
+<p class="text-2xl font-bold font-headline-sm" id="hours-count">08</p>
+<p class="text-[10px] uppercase font-bold tracking-widest opacity-60">Horas</p>
+</div>
+<div class="flex-1 bg-white/10 backdrop-blur-md rounded-2xl p-4 text-center">
+<p class="text-2xl font-bold font-headline-sm" id="mins-count">45</p>
+<p class="text-[10px] uppercase font-bold tracking-widest opacity-60">Mins</p>
+</div>
+</div>
+<button class="w-full py-4 bg-primary text-white rounded-full font-label-md hover:brightness-110 active:scale-95 transition-all flex items-center justify-center gap-2">
+                            Open Itinerary
+                            <span class="material-symbols-outlined" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</div>
+<!-- Travel Packing Tip Widget -->
+<div class="bg-surface-container-high p-8 rounded-lg">
+<div class="flex items-center gap-3 mb-6">
+<div class="w-10 h-10 bg-primary-container rounded-full flex items-center justify-center text-on-primary-container">
+<span class="material-symbols-outlined" data-icon="lightbulb">lightbulb</span>
+</div>
+<h4 class="font-headline-sm text-on-surface">Travel Tip</h4>
+</div>
+<p class="font-body-md text-on-surface-variant italic mb-6">"Don't forget to pack a universal adapter and a reusable water bottle for the Amalfi Coast. The lemon granitas are a must!"</p>
+<div class="space-y-3">
+<div class="flex items-center gap-3 p-3 bg-surface-container-low rounded-full">
+<span class="material-symbols-outlined text-primary" data-icon="check_circle">check_circle</span>
+<span class="font-label-md">Passport valid for 6 months</span>
+</div>
+<div class="flex items-center gap-3 p-3 bg-surface-container-low rounded-full">
+<span class="material-symbols-outlined text-primary" data-icon="check_circle">check_circle</span>
+<span class="font-label-md">Download offline maps</span>
+</div>
+</div>
+</div>
+<!-- Quick Stats Bento-style -->
+<div class="grid grid-cols-2 gap-4">
+<div class="bg-surface-container p-6 rounded-lg text-center hover:bg-surface-container-highest transition-colors cursor-pointer">
+<p class="text-3xl font-bold text-primary mb-1">14</p>
+<p class="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest">Countries</p>
+</div>
+<div class="bg-surface-container p-6 rounded-lg text-center hover:bg-surface-container-highest transition-colors cursor-pointer">
+<p class="text-3xl font-bold text-tertiary mb-1">28</p>
+<p class="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest">Cities</p>
+</div>
+</div>
+</aside>
+</div>
+</main>
+<!-- Floating Action Button for Mobile -->
+<button class="md:hidden fixed bottom-8 right-6 w-16 h-16 bg-primary text-white rounded-full shadow-2xl flex items-center justify-center z-[60] active:scale-90 transition-transform">
+<span class="material-symbols-outlined text-3xl" data-icon="add">add</span>
+</button>
+</div>
+<!-- Micro-interactions Script -->
+<script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Animate progress bars on load
+            const kyotoProgress = document.getElementById('progress-kyoto');
+            if (kyotoProgress) {
+                kyotoProgress.style.width = '0%';
+                setTimeout(() => {
+                    kyotoProgress.style.transition = 'width 1.5s cubic-bezier(0.65, 0, 0.35, 1)';
+                    kyotoProgress.style.width = '45%';
+                }, 300);
+            }
+
+            // Simple Countdown Logic Mock
+            let mins = 45;
+            setInterval(() => {
+                mins--;
+                if (mins < 0) mins = 59;
+                const minEl = document.getElementById('mins-count');
+                if (minEl) minEl.innerText = mins < 10 ? '0' + mins : mins;
+            }, 60000);
+
+            // Button Hover Scale Effect Logic
+            const buttons = document.querySelectorAll('button, a.group');
+            buttons.forEach(btn => {
+                btn.addEventListener('mousedown', () => btn.classList.add('scale-95'));
+                btn.addEventListener('mouseup', () => btn.classList.remove('scale-95'));
+                btn.addEventListener('mouseleave', () => btn.classList.remove('scale-95'));
+            });
+        });
+    </script>
+</body></html>

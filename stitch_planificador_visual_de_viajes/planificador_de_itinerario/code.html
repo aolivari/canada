@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Travel Joy - Itinerary Planner</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Epilogue:wght@600;700;800&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .fill-icon {
+            font-variation-settings: 'FILL' 1;
+        }
+        
+        /* Custom Dotted Path for Joyful Organization */
+        .timeline-connector {
+            background-image: radial-gradient(circle, #77574d 1px, transparent 1px);
+            background-size: 1px 8px;
+            background-repeat: repeat-y;
+            width: 2px;
+        }
+
+        /* Glassmorphism subtle effect */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+        }
+
+        /* Hide scrollbars but keep functionality */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary-fixed-variant": "#822800",
+                        "tertiary": "#a43c12",
+                        "on-primary-container": "#27520b",
+                        "surface-dim": "#dbdad6",
+                        "surface-tint": "#3d6922",
+                        "on-error": "#ffffff",
+                        "inverse-primary": "#a2d580",
+                        "background": "#fbf9f5",
+                        "on-error-container": "#93000a",
+                        "on-background": "#1b1c1a",
+                        "error-container": "#ffdad6",
+                        "surface-container-lowest": "#ffffff",
+                        "inverse-on-surface": "#f2f0ed",
+                        "surface-container-high": "#eae8e4",
+                        "on-primary-fixed": "#092100",
+                        "tertiary-fixed-dim": "#ffb59c",
+                        "outline-variant": "#c2c9b8",
+                        "on-secondary-container": "#795950",
+                        "tertiary-container": "#ff9e7c",
+                        "inverse-surface": "#30312e",
+                        "error": "#ba1a1a",
+                        "outline": "#73796b",
+                        "on-secondary": "#ffffff",
+                        "on-tertiary-container": "#842800",
+                        "surface-bright": "#fbf9f5",
+                        "surface-container-highest": "#e4e2de",
+                        "on-primary": "#ffffff",
+                        "secondary-container": "#fed3c7",
+                        "surface-container": "#efeeea",
+                        "primary-fixed": "#bdf199",
+                        "secondary-fixed-dim": "#e7bdb1",
+                        "surface-container-low": "#f5f3ef",
+                        "on-surface-variant": "#42493c",
+                        "primary-fixed-dim": "#a2d580",
+                        "tertiary-fixed": "#ffdbcf",
+                        "on-secondary-fixed-variant": "#5d4037",
+                        "secondary-fixed": "#ffdbd0",
+                        "surface-variant": "#e4e2de",
+                        "secondary": "#77574d",
+                        "primary-container": "#93c572",
+                        "on-primary-fixed-variant": "#26500a",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary-fixed": "#2c160e",
+                        "on-tertiary-fixed": "#380c00",
+                        "on-surface": "#1b1c1a",
+                        "primary": "#3d6922",
+                        "surface": "#fbf9f5"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "1rem",
+                        "lg": "2rem",
+                        "xl": "3rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-mobile": "16px",
+                        "container-max": "1280px",
+                        "gutter": "24px",
+                        "margin-desktop": "40px",
+                        "unit": "8px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Plus Jakarta Sans"],
+                        "label-md": ["Plus Jakarta Sans"],
+                        "headline-sm": ["Epilogue"],
+                        "label-sm": ["Plus Jakarta Sans"],
+                        "display-lg": ["Epilogue"],
+                        "display-lg-mobile": ["Epilogue"],
+                        "body-lg": ["Plus Jakarta Sans"],
+                        "headline-md": ["Epilogue"]
+                    },
+                    "fontSize": {
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                        "headline-sm": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                        "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "display-lg-mobile": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "headline-md": ["32px", {"lineHeight": "40px", "fontWeight": "600"}]
+                    }
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background text-on-surface font-body-md overflow-hidden h-screen">
+<div class="flex h-full w-full">
+<!-- SIDE NAVBAR COMPONENT -->
+<aside class="flex flex-col h-full w-64 py-10 px-4 bg-surface-container-low dark:bg-surface-dim shadow-[0px_4px_20px_rgba(93,64,55,0.08)] rounded-r-lg sticky left-0 top-0 z-50">
+<div class="flex items-center gap-3 mb-10 px-2">
+<div class="w-10 h-10 bg-primary-container rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined text-on-primary-container fill-icon">sunny</span>
+</div>
+<div>
+<h1 class="font-headline-md text-headline-md text-primary font-bold leading-none">Travel Joy</h1>
+<p class="text-[10px] font-label-sm text-secondary uppercase tracking-widest mt-1">Your next adventure awaits</p>
+</div>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-4 px-4 py-3 text-primary dark:text-primary-fixed-dim border-r-4 border-primary font-bold hover:scale-[1.02] hover:bg-surface-container-highest transition-transform duration-200" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label-md text-label-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-4 px-4 py-3 text-on-surface-variant dark:text-surface-variant hover:scale-[1.02] hover:bg-surface-container-highest transition-transform duration-200" href="#">
+<span class="material-symbols-outlined">map</span>
+<span class="font-label-md text-label-md">My Trips</span>
+</a>
+<a class="flex items-center gap-4 px-4 py-3 text-on-surface-variant dark:text-surface-variant hover:scale-[1.02] hover:bg-surface-container-highest transition-transform duration-200" href="#">
+<span class="material-symbols-outlined">explore</span>
+<span class="font-label-md text-label-md">Explore</span>
+</a>
+<a class="flex items-center gap-4 px-4 py-3 text-on-surface-variant dark:text-surface-variant hover:scale-[1.02] hover:bg-surface-container-highest transition-transform duration-200" href="#">
+<span class="material-symbols-outlined">payments</span>
+<span class="font-label-md text-label-md">Budget</span>
+</a>
+<a class="flex items-center gap-4 px-4 py-3 text-on-surface-variant dark:text-surface-variant hover:scale-[1.02] hover:bg-surface-container-highest transition-transform duration-200" href="#">
+<span class="material-symbols-outlined">checklist</span>
+<span class="font-label-md text-label-md">Packing List</span>
+</a>
+</nav>
+<button class="mt-auto mx-2 bg-primary text-on-primary py-3 rounded-full font-label-md text-label-md flex items-center justify-center gap-2 shadow-lg hover:scale-[1.02] transition-transform active:scale-95">
+<span class="material-symbols-outlined">add</span>
+                New Trip
+            </button>
+<div class="mt-6 px-4 py-4 flex items-center gap-3 border-t border-outline-variant/20">
+<div class="w-10 h-10 rounded-full bg-secondary-container overflow-hidden border-2 border-primary-fixed">
+<img class="w-full h-full object-cover" data-alt="A professional headshot of a smiling traveler in front of a blurred Mediterranean coastal town. The lighting is golden hour warm, creating a high-end travel lifestyle atmosphere. The color palette is natural with soft teals and sandy beiges, matching the clean minimalist design of the UI." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAeiAlbgm1YcOG2NwQ1P5G172750o7oeiO_Q5iU55haxM99pQ3Mmq8sDdK5nKb0rrHc2OyK0w_Y2FQEdz-21kFMYVuKZ0qtujGZcD7d_cKjL2KN-YCqFx3S8PqVOc6DDeYOod8LUL288Hmtif_E0Zi3e7hxKreHo0ofo9EBAt1p9lPvNeCReNwq5ONhXXn-KPHQnjiWacHZ5bY9ajNy5K4yOZUEorulTEWP0eWVYo4vE72637DqyO5n2w"/>
+</div>
+<div class="flex-1">
+<p class="font-label-md text-on-surface text-sm">Elena Joy</p>
+<p class="text-xs text-on-surface-variant">Global Explorer</p>
+</div>
+</div>
+</aside>
+<!-- MAIN CANVAS -->
+<main class="flex-1 flex flex-col h-full overflow-hidden">
+<!-- TOP APP BAR -->
+<header class="flex justify-between items-center w-full px-10 py-6 max-w-container-max mx-auto bg-background/80 backdrop-blur-md sticky top-0 z-40">
+<div>
+<h2 class="font-headline-md text-headline-md text-on-surface font-extrabold tracking-tight">VacaVibes: Bali Escape</h2>
+<p class="text-secondary font-label-md">Oct 12 - Oct 22, 2024</p>
+</div>
+<div class="flex items-center gap-6">
+<div class="relative hidden md:block">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+<input class="bg-surface-container-low border-none rounded-full pl-12 pr-6 py-2 w-64 focus:ring-2 focus:ring-primary-container font-label-md" placeholder="Search itinerary..." type="text"/>
+</div>
+<div class="flex gap-2">
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined">settings</span>
+</button>
+</div>
+</div>
+</header>
+<!-- CONTENT GRID -->
+<div class="flex-1 overflow-y-auto no-scrollbar px-10 pb-10">
+<div class="grid grid-cols-12 gap-8 h-full">
+<!-- LEFT COLUMN: VERTICAL TIMELINE -->
+<div class="col-span-12 lg:col-span-3">
+<div class="flex items-center justify-between mb-6">
+<h3 class="font-headline-sm text-headline-sm text-secondary">Trip Pulse</h3>
+<button class="text-primary font-label-md text-sm">See all</button>
+</div>
+<div class="relative pl-4 space-y-8">
+<!-- Timeline Line -->
+<div class="absolute left-6 top-6 bottom-6 timeline-connector opacity-20"></div>
+<!-- Timeline Items -->
+<div class="relative flex gap-4 group">
+<div class="w-4 h-4 bg-primary rounded-full absolute -left-[1.35rem] top-2 ring-4 ring-background"></div>
+<div class="flex-1 bg-surface-container-lowest p-4 rounded-lg shadow-sm border border-outline-variant/10 hover:shadow-md transition-shadow group-hover:-translate-y-1 duration-200">
+<div class="flex items-center gap-3 mb-2">
+<span class="material-symbols-outlined text-tertiary">flight_takeoff</span>
+<span class="font-label-sm text-label-sm text-tertiary uppercase">10:45 AM</span>
+</div>
+<h4 class="font-bold text-on-surface">Flight to DPS</h4>
+<p class="text-xs text-on-surface-variant mt-1">Terminal 3, Gate B12</p>
+</div>
+</div>
+<div class="relative flex gap-4 group">
+<div class="w-4 h-4 bg-primary-fixed-dim rounded-full absolute -left-[1.35rem] top-2 ring-4 ring-background"></div>
+<div class="flex-1 bg-surface-container-lowest p-4 rounded-lg shadow-sm border border-outline-variant/10 hover:shadow-md transition-shadow group-hover:-translate-y-1 duration-200">
+<div class="flex items-center gap-3 mb-2">
+<span class="material-symbols-outlined text-primary">apartment</span>
+<span class="font-label-sm text-label-sm text-primary uppercase">03:00 PM</span>
+</div>
+<h4 class="font-bold text-on-surface">Ubud Zen Villa</h4>
+<p class="text-xs text-on-surface-variant mt-1">Check-in &amp; Welcome Drink</p>
+</div>
+</div>
+<div class="relative flex gap-4 group">
+<div class="w-4 h-4 bg-secondary-container rounded-full absolute -left-[1.35rem] top-2 ring-4 ring-background"></div>
+<div class="flex-1 bg-surface-container-lowest p-4 rounded-lg shadow-sm border border-outline-variant/10 hover:shadow-md transition-shadow group-hover:-translate-y-1 duration-200">
+<div class="flex items-center gap-3 mb-2">
+<span class="material-symbols-outlined text-secondary">restaurant</span>
+<span class="font-label-sm text-label-sm text-secondary uppercase">07:30 PM</span>
+</div>
+<h4 class="font-bold text-on-surface">Locavore Dinner</h4>
+<p class="text-xs text-on-surface-variant mt-1">Reservation for 2</p>
+</div>
+</div>
+<div class="relative flex gap-4 group">
+<div class="w-4 h-4 bg-tertiary-fixed rounded-full absolute -left-[1.35rem] top-2 ring-4 ring-background"></div>
+<div class="flex-1 bg-surface-container-lowest p-4 rounded-lg shadow-sm border border-outline-variant/10 hover:shadow-md transition-shadow group-hover:-translate-y-1 duration-200">
+<div class="flex items-center gap-3 mb-2">
+<span class="material-symbols-outlined text-on-tertiary-fixed-variant">landscape</span>
+<span class="font-label-sm text-label-sm text-on-tertiary-fixed-variant uppercase">Tomorrow</span>
+</div>
+<h4 class="font-bold text-on-surface">Tegalalang Rice Terrace</h4>
+<p class="text-xs text-on-surface-variant mt-1">Morning photography tour</p>
+</div>
+</div>
+</div>
+</div>
+<!-- MAIN SECTION: CALENDAR VIEW -->
+<div class="col-span-12 lg:col-span-6">
+<div class="bg-white rounded-lg p-8 shadow-[0px_4px_24px_rgba(93,64,55,0.06)] h-fit">
+<div class="flex items-center justify-between mb-8">
+<h3 class="font-headline-sm text-headline-sm text-on-surface">October 2024</h3>
+<div class="flex gap-2">
+<button class="p-2 hover:bg-surface-container rounded-full transition-colors"><span class="material-symbols-outlined">chevron_left</span></button>
+<button class="p-2 hover:bg-surface-container rounded-full transition-colors"><span class="material-symbols-outlined">chevron_right</span></button>
+</div>
+</div>
+<!-- Calendar Grid -->
+<div class="grid grid-cols-7 gap-y-4 text-center">
+<!-- Weekdays -->
+<div class="font-label-sm text-on-surface-variant uppercase text-[10px] mb-2">Sun</div>
+<div class="font-label-sm text-on-surface-variant uppercase text-[10px] mb-2">Mon</div>
+<div class="font-label-sm text-on-surface-variant uppercase text-[10px] mb-2">Tue</div>
+<div class="font-label-sm text-on-surface-variant uppercase text-[10px] mb-2">Wed</div>
+<div class="font-label-sm text-on-surface-variant uppercase text-[10px] mb-2">Thu</div>
+<div class="font-label-sm text-on-surface-variant uppercase text-[10px] mb-2">Fri</div>
+<div class="font-label-sm text-on-surface-variant uppercase text-[10px] mb-2">Sat</div>
+<!-- Days (Simulated) -->
+<div class="py-4 text-outline-variant font-body-md opacity-50">29</div>
+<div class="py-4 text-outline-variant font-body-md opacity-50">30</div>
+<div class="py-4 font-body-md">1</div>
+<div class="py-4 font-body-md">2</div>
+<div class="py-4 font-body-md">3</div>
+<div class="py-4 font-body-md">4</div>
+<div class="py-4 font-body-md">5</div>
+<div class="py-4 font-body-md">6</div>
+<div class="py-4 font-body-md">7</div>
+<div class="py-4 font-body-md">8</div>
+<div class="py-4 font-body-md">9</div>
+<div class="py-4 font-body-md">10</div>
+<div class="py-4 font-body-md">11</div>
+<!-- Highlighted Trip Days -->
+<div class="py-4 relative flex items-center justify-center">
+<div class="w-10 h-10 bg-primary-container/20 rounded-full flex items-center justify-center font-bold text-primary ring-2 ring-primary-container">12</div>
+<div class="absolute bottom-1 w-1 h-1 bg-primary rounded-full"></div>
+</div>
+<div class="py-4 bg-primary-container/10 border-y border-primary-container/30 font-bold text-primary">13</div>
+<div class="py-4 bg-primary-container/10 border-y border-primary-container/30 font-bold text-primary">14</div>
+<div class="py-4 bg-primary-container/10 border-y border-primary-container/30 font-bold text-primary">15</div>
+<div class="py-4 bg-primary-container/10 border-y border-primary-container/30 font-bold text-primary">16</div>
+<div class="py-4 bg-primary-container/10 border-y border-primary-container/30 font-bold text-primary">17</div>
+<div class="py-4 bg-primary-container/10 border-y border-primary-container/30 border-r rounded-r-full font-bold text-primary">18</div>
+<div class="py-4 font-body-md">19</div>
+<div class="py-4 font-body-md">20</div>
+<div class="py-4 font-body-md">21</div>
+<div class="py-4 font-body-md">22</div>
+<div class="py-4 font-body-md">23</div>
+<div class="py-4 font-body-md">24</div>
+<div class="py-4 font-body-md">25</div>
+<div class="py-4 font-body-md">26</div>
+<div class="py-4 font-body-md">27</div>
+<div class="py-4 font-body-md">28</div>
+<div class="py-4 font-body-md">29</div>
+<div class="py-4 font-body-md">30</div>
+<div class="py-4 font-body-md">31</div>
+<div class="py-4 text-outline-variant font-body-md opacity-50">1</div>
+</div>
+</div>
+<!-- Secondary Info Row -->
+<div class="mt-8 flex gap-6 overflow-x-auto no-scrollbar pb-4">
+<div class="flex-shrink-0 w-64 bg-secondary-container/30 p-6 rounded-lg border border-secondary/10 group cursor-pointer hover:bg-secondary-container/50 transition-all">
+<div class="flex justify-between items-start mb-4">
+<div class="p-2 bg-white rounded-lg shadow-sm">
+<span class="material-symbols-outlined text-secondary fill-icon">savings</span>
+</div>
+<span class="text-xs font-bold text-secondary">72% used</span>
+</div>
+<h5 class="font-bold text-on-surface">Trip Budget</h5>
+<p class="text-xl font-headline-sm text-secondary">$3,240 / $4,500</p>
+</div>
+<div class="flex-shrink-0 w-64 bg-primary-fixed/30 p-6 rounded-lg border border-primary/10 group cursor-pointer hover:bg-primary-fixed/50 transition-all">
+<div class="flex justify-between items-start mb-4">
+<div class="p-2 bg-white rounded-lg shadow-sm">
+<span class="material-symbols-outlined text-primary fill-icon">photo_camera</span>
+</div>
+<span class="text-xs font-bold text-primary">12 Items</span>
+</div>
+<h5 class="font-bold text-on-surface">Photo Wishlist</h5>
+<div class="flex -space-x-2 mt-2">
+<div class="w-8 h-8 rounded-full border-2 border-white overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover" data-alt="A macro shot of vibrant pink tropical flowers against a lush green Bali jungle background. Soft daylight, shallow depth of field, high-end travel photography style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD4wR4p9YR_1P33lvMzkn9fOFnmaJ5lbbfJdkXQls4p9ayzJlNRtd1VMW3ZIFotSWb3ZhN-jIt-wlWXjZydcUVeleIyAjbj8PqEXQagDij-lQ2IxbVo2Jsrtb6DWLRNSCwZcyiiZwi4JYf8LySqCovJqJuu7rmN4DhUDkmDQaPTuKokDmeX5IxKvvCh4AGmuqScwFkNOsNqrYMzDTtXQCf534LTay3tvP0GJlNdPNWnZfhYSXWpysXQng"/>
+</div>
+<div class="w-8 h-8 rounded-full border-2 border-white overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover" data-alt="Golden sunrise reflecting off the calm waters of a tropical infinity pool overlooking the ocean. Warm orange and teal tones, tranquil atmosphere." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDslsN87Ka6efoFsldkUn7_GDmwaDy1fzK7ptSZ7b4wvo4AaWb586T4pS9ysUxCuyZOcj64S0wFgoHuS7fkc3yishCFMtJ17uTRisbwTAohBuXFkA9tsL2GopIpzyLCKahDUc3M5Oh51ZRLKrqxzvyLp1-wUUYdEnZuOj3q7ginLj0tQc1qyBT89ufbMVJHqZcoz91y2FeN4Cs_jpx-6K7xq8AterZ3BDM9KnTXb1rP2pJiUYGkiTcpQg"/>
+</div>
+<div class="w-8 h-8 rounded-full border-2 border-white bg-surface-container flex items-center justify-center text-[10px] font-bold text-on-surface-variant">+10</div>
+</div>
+</div>
+</div>
+</div>
+<!-- RIGHT SIDEBAR: WIDGETS -->
+<div class="col-span-12 lg:col-span-3 space-y-6">
+<!-- WEATHER WIDGET -->
+<div class="bg-primary text-on-primary p-6 rounded-lg shadow-lg relative overflow-hidden group">
+<!-- Background Decor -->
+<div class="absolute -right-4 -top-4 w-32 h-32 bg-primary-container/20 rounded-full blur-2xl group-hover:scale-125 transition-transform duration-700"></div>
+<div class="relative z-10">
+<div class="flex justify-between items-center mb-4">
+<span class="font-label-md">Ubud, Bali</span>
+<span class="material-symbols-outlined fill-icon text-3xl text-primary-fixed">wb_sunny</span>
+</div>
+<div class="flex items-baseline gap-2">
+<span class="text-5xl font-display-lg font-bold">24°</span>
+<span class="text-xl font-headline-sm opacity-80">Soleado</span>
+</div>
+<div class="mt-6 grid grid-cols-3 gap-2 text-center text-[10px] font-bold uppercase tracking-widest opacity-90">
+<div>
+<p>Hum.</p>
+<p class="text-sm font-bold mt-1">65%</p>
+</div>
+<div class="border-x border-on-primary/20">
+<p>Wind</p>
+<p class="text-sm font-bold mt-1">12km/h</p>
+</div>
+<div>
+<p>UV</p>
+<p class="text-sm font-bold mt-1">High</p>
+</div>
+</div>
+</div>
+</div>
+<!-- PACKING LIST WIDGET -->
+<div class="bg-surface-container-low p-6 rounded-lg border border-outline-variant/20">
+<div class="flex justify-between items-center mb-6">
+<h4 class="font-bold text-on-surface">Packing List</h4>
+<span class="bg-secondary-container text-on-secondary-fixed-variant px-2 py-0.5 rounded text-[10px] font-bold uppercase">4 left</span>
+</div>
+<ul class="space-y-4">
+<li class="flex items-center gap-3">
+<div class="w-5 h-5 rounded border-2 border-primary bg-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-[14px] font-bold">check</span>
+</div>
+<span class="text-sm text-on-surface-variant line-through opacity-50">Passport &amp; Visas</span>
+</li>
+<li class="flex items-center gap-3">
+<div class="w-5 h-5 rounded border-2 border-outline-variant bg-white"></div>
+<span class="text-sm text-on-surface font-medium">Sunglasses</span>
+</li>
+<li class="flex items-center gap-3">
+<div class="w-5 h-5 rounded border-2 border-outline-variant bg-white"></div>
+<span class="text-sm text-on-surface font-medium">Universal Adapter</span>
+</li>
+<li class="flex items-center gap-3">
+<div class="w-5 h-5 rounded border-2 border-primary bg-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-[14px] font-bold">check</span>
+</div>
+<span class="text-sm text-on-surface-variant line-through opacity-50">Hiking Boots</span>
+</li>
+<li class="flex items-center gap-3">
+<div class="w-5 h-5 rounded border-2 border-outline-variant bg-white"></div>
+<span class="text-sm text-on-surface font-medium">Linen Shirts</span>
+</li>
+</ul>
+<button class="w-full mt-6 py-3 border-2 border-dashed border-outline-variant text-on-surface-variant rounded-lg text-sm font-label-md hover:border-primary hover:text-primary transition-colors flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-sm">add</span>
+                                Add Item
+                            </button>
+</div>
+<!-- QUICK ACTIONS -->
+<div class="flex flex-col gap-3">
+<button class="flex items-center justify-between p-4 bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow group">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-tertiary">picture_as_pdf</span>
+<span class="font-label-md text-sm">Download PDF</span>
+</div>
+<span class="material-symbols-outlined text-outline-variant group-hover:translate-x-1 transition-transform">arrow_forward_ios</span>
+</button>
+<button class="flex items-center justify-between p-4 bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow group">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary">share</span>
+<span class="font-label-md text-sm">Share Trip</span>
+</div>
+<span class="material-symbols-outlined text-outline-variant group-hover:translate-x-1 transition-transform">arrow_forward_ios</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+<!-- FLOATING ACTION BUTTON (Contextual for Planner) -->
+<button class="fixed bottom-10 right-10 w-16 h-16 bg-tertiary text-on-tertiary rounded-full shadow-[0px_8px_30px_rgba(164,60,18,0.4)] flex items-center justify-center hover:scale-110 active:scale-95 transition-all duration-300 z-50 group">
+<span class="material-symbols-outlined text-3xl group-hover:rotate-90 transition-transform duration-300">add</span>
+<!-- Tooltip -->
+<div class="absolute right-full mr-4 bg-on-tertiary-fixed-variant text-white px-3 py-1 rounded text-xs font-bold whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+            Add Activity
+        </div>
+</button>
+<script>
+        // Simple micro-interaction for the calendar days
+        document.querySelectorAll('.calendar-day').forEach(day => {
+            day.addEventListener('mouseenter', () => {
+                day.classList.add('scale-110', 'transition-transform');
+            });
+            day.addEventListener('mouseleave', () => {
+                day.classList.remove('scale-110');
+            });
+        });
+    </script>
+</body></html>
