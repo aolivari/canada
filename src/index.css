@@ -1,19 +1,42 @@
-/* Limpieza total del CSS base */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply font-body bg-background text-on-surface antialiased;
+  }
 }
 
-body {
-  font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
+@layer components {
+  .glass-card {
+    @apply bg-white/70 backdrop-blur-sm border border-white/40;
+  }
+  
+  .timeline-dot {
+    @apply w-4 h-4 rounded-full ring-4 ring-background absolute -left-[1.35rem] top-2 z-10;
+  }
 
-/* Scroll suave */
-html {
-  scroll-behavior: smooth;
-}
+  .timeline-line {
+    background-image: radial-gradient(circle, #77574d 1px, transparent 1px);
+    background-size: 1px 8px;
+    background-repeat: repeat-y;
+    @apply w-[2px] absolute left-6 top-6 bottom-6 opacity-20;
+  }
 
-/* Sin estilos adicionales — todo por MUI */
+  .maps-btn {
+    @apply inline-flex items-center gap-1 text-xs text-[#1a73e8] hover:underline font-medium;
+  }
+
+  .badge-top {
+    @apply bg-tertiary text-on-tertiary text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider;
+  }
+
+  .badge-hike {
+    @apply bg-primary-container/40 text-on-primary-container text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider;
+  }
+
+  .badge-eat {
+    @apply bg-secondary-container text-on-secondary-container text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider;
+  }
+}

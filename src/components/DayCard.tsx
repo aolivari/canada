@@ -1,88 +1,44 @@
-import {
-  Box,
-  Card,
-  CardContent,
-  Typography,
-  Chip,
-  Divider,
-} from '@mui/material';
-import type { Day } from '../data/tripData';
-import ActivityCard from './ActivityCard';
+import type { Day } from "../data/tripData";
+import ActivityCard from "./ActivityCard";
 
 interface Props {
   day: Day;
-  index: number;
 }
 
-export default function DayCard({ day, index }: Props) {
-  const isHighlight = (t: string) =>
-    t.includes('NIAGARA') || t.includes('Clifton Hill') || t.includes('Despedida');
+export default function DayCard({ day }: Props) {
+  const isSpecial = day.title.includes("Niagara") || day.title.includes("Clifton Hill") || day.title.includes("Despedida");
 
   return (
-    <Box sx={{ mb: 3 }}>
-      {/* Fecha cabecera */}
-      <Box
-        sx={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: 1.5,
-          mb: 1.5,
-          px: 1,
-        }}
-      >
-        <Box
-          sx={{
-            width: 48,
-            height: 48,
-            borderRadius: '50%',
-            bgcolor: isHighlight(day.title) ? '#e67e22' : '#1a3a5c',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            color: '#fff',
-            fontWeight: 700,
-            fontSize: '0.75rem',
-            flexShrink: 0,
-            lineHeight: 1.2,
-            textAlign: 'center',
-          }}
-        >
-          {day.date.split(' ')[0]}
+    <div className="mb-8">
+      {/* Date badge + title */}
+      <div className="flex items-start gap-3 mb-5 px-1">
+        <div className={`w-12 h-12 rounded-full flex items-center justify-center text-white font-bold text-xs leading-tight text-center flex-shrink-0 ${isSpecial ? "bg-tertiary" : "bg-primary"}`}>
+          {day.date.split(" ")[0]}
           <br />
-          {day.date.split(' ')[1]}
-        </Box>
-        <Box sx={{ flex: 1 }}>
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-            <Typography variant="caption" sx={{ color: '#999', fontWeight: 600, fontSize: '0.7rem' }}>
-              {day.dayName}
-            </Typography>
-            {isHighlight(day.title) && (
-              <Chip label="🔥 IMPERDIBLE" size="small" sx={{ bgcolor: '#e67e22', color: '#fff', fontSize: '0.6rem', height: 20 }} />
-            )}
-          </Box>
-          <Typography variant="body2" sx={{ fontWeight: 700, fontSize: '1rem', color: '#1a3a5c' }}>
-            {day.title.split('—')[0]}
-            {day.title.includes('—') && (
-              <>
-                <br />
-                <Typography variant="caption" sx={{ color: '#666', fontWeight: 400, fontSize: '0.8rem' }}>
-                  {day.title.split('—')[1]}
-                </Typography>
-              </>
-            )}
-          </Typography>
-          {day.subtitle && (
-            <Typography variant="caption" sx={{ color: '#888', fontSize: '0.72rem' }}>
-              {day.subtitle}
-            </Typography>
-          )}
-        </Box>
-      </Box>
+          {day.date.split(" ")[1]}
+        </div>
+        <div className="flex-1 min-w-0 pt-0.5">
+          <div className="flex items-center gap-2">
+            <span className="text-[10px] font-bold text-on-surface-variant/50 uppercase tracking-wider">{day.dayName}</span>
+            {isSpecial && <span className="badge-top text-[9px]">⭐ top</span>}
+          </div>
+          <h3 className="font-display font-bold text-on-surface text-base leading-tight mt-0.5">
+            {day.title}
+          </h3>
+          <p className="text-xs text-on-surface-variant/70 mt-0.5">{day.subtitle}</p>
+        </div>
+      </div>
 
-      {/* Actividades */}
-      {day.activities.map((act, i) => (
-        <ActivityCard key={i} activity={act} />
-      ))}
-    </Box>
+      {/* Timeline container */}
+      <div className="relative pl-7 space-y-4">
+        {/* Vertical dotted line */}
+        <div className="timeline-line" />
+
+        {/* Activities */}
+        {day.activities.map((act, i) => (
+          <ActivityCard key={i} {...act} />
+        ))}
+      </div>
+    </div>
   );
 }
